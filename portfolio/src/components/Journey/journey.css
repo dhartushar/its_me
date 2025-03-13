@@ -1,0 +1,124 @@
+.journey-section {
+  padding: 4rem 0;
+  background-color: #f8f9fa;
+}
+
+.journey-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.journey-intro {
+  max-width: 600px;
+}
+
+.journey-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0066cc;
+}
+
+.journey-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0.5rem 0 1rem;
+}
+
+.journey-description {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.journey-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-right {
+  font-size: 1rem;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #0066cc;
+}
+
+.timeline-item {
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2.5rem;
+  top: 0;
+  width: 1rem;
+  height: 1rem;
+  background-color: #0066cc;
+  border-radius: 50%;
+}
+
+.timeline-header {
+  margin-bottom: 1rem;
+}
+
+.timeline-year {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.timeline-role {
+  font-size: 1.25rem;
+  color: #0066cc;
+}
+
+.timeline-description {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.timeline-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.timeline-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .journey-content {
+    flex-direction: row;
+  }
+
+  .journey-intro {
+    flex: 1;
+  }
+
+  .timeline {
+    flex: 1;
+  }
+}
+
