@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-content">
           <div className="footer-section">
-            <h3 className="footer-title">Logo</h3>
+            <h3 className="footer-title">Tushar Dhar</h3>
             <p className="footer-text">A passionate full-stack developer creating seamless digital experiences.</p>
           </div>
 
@@ -14,23 +14,13 @@ export default function Footer() {
             <h3 className="footer-title">Quick Links</h3>
             <ul className="footer-links">
               <li>
-                <a href="#home" className="footer-link">
-                  Home
+                <a href="https://www.linkedin.com/in/tushar-dhar-28a8b622a/" target="_blank" rel="noopener noreferrer" className="footer-link">
+                  LinkedIn
                 </a>
               </li>
               <li>
-                <a href="#about" className="footer-link">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="#portfolio" className="footer-link">
-                  Work
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="footer-link">
-                  Contact
+                <a href="https://github.com/dhartushar" target="_blank" rel="noopener noreferrer" className="footer-link">
+                  GitHub
                 </a>
               </li>
             </ul>
@@ -41,7 +31,7 @@ export default function Footer() {
             <ul className="footer-links">
               <li>
                 <a href="#skills" className="footer-link">
-                  Web Development
+                  Web Development/ Full Stack
                 </a>
               </li>
               <li>
@@ -51,7 +41,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#skills" className="footer-link">
-                  Consultation
+                  AI applications
                 </a>
               </li>
             </ul>
@@ -60,15 +50,14 @@ export default function Footer() {
           <div className="footer-section">
             <h3 className="footer-title">Contact</h3>
             <ul className="footer-contact">
-              <li>email@example.com</li>
-              <li>+1 (555) 123-4567</li>
-              <li>123 Web Dev Street, Digital City</li>
+              <li>tushardhar2000@gmail.com</li>
+              <li>+91 7838958509</li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} Your Portfolio. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Tushar Dhar</p>
         </div>
       </div>
     </footer>
