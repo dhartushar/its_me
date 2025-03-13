@@ -1,6 +1,7 @@
 import "./hero.css"
 
 export default function Hero() {
+
   return (
     <section className="hero-section">
       <div className="container">
@@ -12,9 +13,6 @@ export default function Hero() {
               expertise lies primarily in frontend development, where I bring ideas to life through innovative design
               and user- centric solutions.
             </p>
-            <div className="hero-buttons">
-              <button className="btn btn-primary">Contact</button>
-            </div>
           </div>
           <div className="hero-image">
             <img src="/assets/hero.jpg" alt="Hero illustration" />
