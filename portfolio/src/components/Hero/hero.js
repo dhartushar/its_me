@@ -6,7 +6,7 @@ export default function Hero() {
       <div className="container">
         <div className="hero-content">
           <div className="hero-text">
-            <h1 className="hero-title">HELLO PEEPS</h1>
+            <h1 className="hero-title">Hey there, awesome humans!</h1>
             <p className="hero-description">
               As a passionate full stack developer, I specialize in creating dynamic and responsive web applications. My
               expertise lies primarily in frontend development, where I bring ideas to life through innovative design
