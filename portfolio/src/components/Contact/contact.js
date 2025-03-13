@@ -76,7 +76,6 @@ export default function Contact() {
         setIsLoading(false)
       })
   }
-  console.log("serive ID", process.env.REACT_APP_EMAILJS_SERVICE_ID)
   return (
     <section id="contact" className="contact-section">
       <div className="container">
