@@ -14,13 +14,12 @@ export const rooms: Record<string, RoomConfig> = {
     background: "#17181c",
     Component: MainRoom,
     camera: {
-      target: [0, 1.1, 0],
+      target: [0, 2.1, 0],
       azimuth: degrees(45),
       polar: degrees(57),
       azimuthRange: [degrees(8), degrees(82)],
       polarRange: [degrees(48), degrees(66)],
-      fit: { width: 17.5, height: 14 },
-      zoomRange: [0.8, 2.6],
+      fit: { width: 16.2, height: 15.4 },
     },
   },
 };

@@ -15,7 +15,7 @@ export function LoadingScreen() {
     >
       <div className="flex flex-col items-center gap-4" role="status">
         <span className="loader-gem" />
-        <p className="text-xs tracking-[0.3em] text-stone-500 uppercase">Lighting the torches</p>
+        <p className="font-pixel text-sm tracking-[0.3em] text-stone-500 uppercase">Lighting the torches</p>
       </div>
     </div>
   );

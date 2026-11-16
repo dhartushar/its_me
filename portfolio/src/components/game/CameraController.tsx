@@ -27,8 +27,8 @@ const spherical = new Spherical();
 
 /**
  * Orthographic isometric camera. Drag rotates within limits that keep the
- * outside of the walls hidden, scroll/pinch zooms, and the reset button
- * eases back to the start pose.
+ * outside of the walls hidden; the room is always fitted to the viewport,
+ * and the reset button eases back to the start pose.
  */
 export function CameraController({ config }: { config: RoomCameraConfig }) {
   const controls = useRef<OrbitControlsImpl>(null);
@@ -148,14 +148,12 @@ export function CameraController({ config }: { config: RoomCameraConfig }) {
       enableDamping
       dampingFactor={0.08}
       rotateSpeed={0.55}
-      zoomSpeed={0.8}
       minAzimuthAngle={config.azimuthRange[0]}
       maxAzimuthAngle={config.azimuthRange[1]}
       minPolarAngle={config.polarRange[0]}
       maxPolarAngle={config.polarRange[1]}
-      minZoom={fitZoom * config.zoomRange[0]}
-      maxZoom={fitZoom * config.zoomRange[1]}
-      // Any manual drag or zoom cancels an eased transition.
+      enableZoom={false}
+      // Any manual drag cancels an eased transition.
       onStart={() => {
         goal.current = null;
       }}

@@ -9,10 +9,8 @@ export interface RoomCameraConfig {
   /** Limits that keep the camera from seeing behind the walls. */
   azimuthRange: [number, number];
   polarRange: [number, number];
-  /** World-space size that must fit in the viewport at the default zoom. */
+  /** World-space size that must fit in the viewport. */
   fit: { width: number; height: number };
-  /** Allowed zoom, as multiples of the fitted zoom. */
-  zoomRange: [number, number];
 }
 
 export interface RoomConfig {

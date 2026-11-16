@@ -2,7 +2,7 @@
 
 @theme {
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  --font-pixel: var(--font-pixel-sans), "Courier New", monospace;
 }
 
 html,
@@ -58,9 +58,9 @@ body {
   width: 18px;
   height: 18px;
   transform: rotate(45deg);
-  border: 2px solid rgb(125 211 252 / 0.85);
+  border: 3px solid rgb(125 211 252 / 0.85);
   box-shadow: 0 0 18px rgb(56 189 248 / 0.45);
-  animation: gem-spin 1.6s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+  animation: gem-spin 1.6s steps(8) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

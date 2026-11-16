@@ -19,7 +19,7 @@ function Fallback() {
       </p>
       {sections.map((panel) => (
         <section key={panel.id}>
-          <h2 className="font-serif text-2xl text-stone-100">{panel.title}</h2>
+          <h2 className="font-pixel text-2xl text-stone-100">{panel.title}</h2>
           {panel.subtitle && <p className="text-stone-500">{panel.subtitle}</p>}
           {panel.paragraphs?.map((text) => (
             <p key={text} className="mt-3">

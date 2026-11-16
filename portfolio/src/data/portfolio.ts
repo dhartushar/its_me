@@ -39,8 +39,8 @@ export interface PanelContent {
 
 export const owner = {
   name: "Tushar Dhar",
-  role: "Software Developer · Full Stack & AI applications",
-  tagline: "A passionate full-stack developer creating seamless digital experiences.",
+  role: "AI Lead · Agentic & Voice AI",
+  tagline: "Building production AI systems for travel.",
 };
 
 export const panels: Record<PanelId, PanelContent> = {
@@ -48,44 +48,53 @@ export const panels: Record<PanelId, PanelContent> = {
     id: "profile",
     eyebrow: "The pedestal",
     title: owner.name,
-    subtitle: owner.role,
+    subtitle: "AI Lead at EaseMyTrip, Gurgaon",
     menuLabel: "Profile & contact",
     paragraphs: [
-      "Hey there, awesome humans! I'm a full stack developer who builds dynamic, responsive web applications.",
-      "My expertise lies primarily in frontend development, where I bring ideas to life through innovative design and user-centric solutions.",
+      "Hey there, awesome humans! I build AI systems that run in production: agentic assistants, real-time voice agents and retrieval pipelines.",
+      "Founding member of the EaseMyTrip AI team, where I lead a team of five shipping conversational, voice and email automation for millions of travellers.",
     ],
     links: [
-      { label: "Email", value: "tushardhar2000@gmail.com", href: "mailto:tushardhar2000@gmail.com" },
+      { label: "Email", value: "tssdhar@gmail.com", href: "mailto:tssdhar@gmail.com" },
       {
         label: "LinkedIn",
         value: "tushar-dhar",
         href: "https://www.linkedin.com/in/tushar-dhar-28a8b622a/",
       },
       { label: "GitHub", value: "dhartushar", href: "https://github.com/dhartushar" },
-      { label: "Location", value: "Ahmedabad ⇄ Gurgaon" },
+      { label: "Location", value: "Gurgaon" },
     ],
   },
   about: {
     id: "about",
     eyebrow: "The ember pillar",
     title: "About me",
-    subtitle: "Crafting seamless digital experiences with code",
+    subtitle: "From full-stack engineering to leading AI",
     menuLabel: "About",
     paragraphs: [
-      "I specialize in creating dynamic full stack web applications using modern frameworks and tools. I work across both frontend and backend, which keeps my approach to a product holistic.",
-      "JavaScript, Python, React, Node.js and responsive design are my key strengths.",
+      "I started out building dashboards and backend services, moved into applied AI, and now lead the AI team at EaseMyTrip. I care about systems that hold up in production: low latency, clear architecture and steady releases.",
     ],
     itemsHeading: "Journey",
     items: [
       {
-        meta: "2024",
-        title: "Software Developer · Crest Data",
-        text: "Full-stack developer specializing in frontend technologies, with a focus on user-friendly interfaces.",
+        meta: "May 2026 · present",
+        title: "AI Lead · EaseMyTrip",
+        text: "Lead EVA (agentic travel assistant on web and WhatsApp), real-time voice AI for booking recovery and Easemail. Lead and mentor a team of 5 with biweekly production releases.",
       },
       {
-        meta: "2023",
-        title: "Developer Intern · BioXcel",
-        text: "Worked on a variety of projects and gained hands-on experience in software development, mainly WordPress and React.",
+        meta: "Oct 2025 · Apr 2026",
+        title: "AI Engineer · EaseMyTrip",
+        text: "Built the enterprise MCP server behind the EaseMyTrip ChatGPT App, plus EasyDarshan itinerary planning, smart flight filters and AI hotel review summaries.",
+      },
+      {
+        meta: "Jan 2024 · Sep 2025",
+        title: "Software Engineer · Crest Data",
+        text: "Connected Splunk, Google SecOps and Sentinel to LLMs over MCP, built OAuth flows for MCP tools, and shipped a ColBERT + s-BERT RAG search with 65% better precision.",
+      },
+      {
+        meta: "Education",
+        title: "BTech ICT · DA-IICT, Gandhinagar",
+        text: "Dhirubhai Ambani Institute of Information and Communication Technology.",
       },
     ],
   },
@@ -93,20 +102,33 @@ export const panels: Record<PanelId, PanelContent> = {
     id: "projects",
     eyebrow: "The stacked pillar",
     title: "Projects",
-    subtitle: "A few things I have built",
+    subtitle: "Selected work",
     menuLabel: "Projects",
     items: [
       {
-        title: "Real-Time Chat Application",
-        text: "A real-time chat application built with React and Socket.io.",
+        meta: "LangChain · LangGraph · RAG · WhatsApp",
+        title: "EVA, agentic travel assistant",
+        text: "Production chatbot for EaseMyTrip web and WhatsApp covering flights, hotels, trains, bookings and agent handoff. Cut support workload by ~50% and resolution time to under 2 minutes.",
       },
       {
-        title: "E-commerce Platform",
-        text: "A scalable e-commerce platform built with React, FastAPI and MongoDB.",
+        meta: "Deepgram · Groq · WebRTC · telephony",
+        title: "Real-time voice AI",
+        text: "STT–LLM–TTS pipeline for outbound calls and browser conversations with sub-900ms latency and barge-in. Recovers abandoned bookings; +10% conversions.",
       },
       {
-        title: "Web 3.0 Blockchain App",
-        text: "A modern Web 3.0 blockchain application built with Solidity and React.",
+        meta: "LangGraph · BM25 · Presidio",
+        title: "Easemail",
+        text: "10-stage pipeline drafting booking-aware support emails across 21 departments and 434 templates, with confidence-gated evaluation. 30% faster turnaround.",
+      },
+      {
+        meta: "MCP · OpenAI",
+        title: "EaseMyTrip MCP server & ChatGPT App",
+        text: "Exposes flight, hotel and train booking plus the knowledge base to external AI assistants, with tool orchestration and intent validation.",
+      },
+      {
+        meta: "RAG · OpenAI · Firebase",
+        title: "AI compliance assistant for Cycore",
+        text: "RAG over 10k+ compliance documents inside a trust center, helping auditors and GRC analysts answer questions and fill security questionnaires faster.",
       },
     ],
   },
@@ -117,11 +139,16 @@ export const panels: Record<PanelId, PanelContent> = {
     subtitle: "Tools I reach for",
     menuLabel: "Skills",
     groups: [
-      { label: "Languages", tags: ["Python", "JavaScript", "C++", "SQL"] },
-      { label: "Front-end", tags: ["React", "HTML", "CSS"] },
-      { label: "Backend & databases", tags: ["FastAPI", "MySQL", "MongoDB"] },
-      { label: "Tools", tags: ["Git", "Docker", "Kubernetes", "Splunk"] },
-      { label: "Other", tags: ["REST APIs", "Linux", "Ubuntu", "AI applications"] },
+      { label: "Languages", tags: ["Python", "TypeScript", "JavaScript", "C/C++", "SQL", "Bash"] },
+      {
+        label: "AI & ML",
+        tags: ["LLMs", "RAG", "LangChain", "LangGraph", "MCP", "Pipecat", "OpenAI Agents SDK", "LoRA / QLoRA", "PyTorch"],
+      },
+      { label: "Backend", tags: ["FastAPI", "Node.js", "Flask", "React", "REST / gRPC", "Redis", "Celery"] },
+      {
+        label: "Data & cloud",
+        tags: ["PostgreSQL + pgvector", "MongoDB", "Pinecone", "Elasticsearch", "GCP", "AWS", "Docker", "CI/CD"],
+      },
     ],
   },
   door: {
@@ -138,7 +165,7 @@ export const panels: Record<PanelId, PanelContent> = {
     eyebrow: "How to explore",
     title: "Finding your way",
     items: [
-      { title: "Look around", text: "Drag to rotate the room. Scroll or pinch to zoom." },
+      { title: "Look around", text: "Drag to rotate the room." },
       {
         title: "Inspect things",
         text: "Click or tap the pedestal, the three pillars and the door. Each one holds something.",
