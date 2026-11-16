@@ -108,9 +108,9 @@ export function GameHUD() {
         )}
       </div>
 
-      <div className="absolute top-5 right-5 hidden text-right sm:top-6 sm:right-7 sm:block">
-        <p className="font-pixel text-2xl leading-tight text-stone-200">{owner.name}</p>
-        <p className="font-pixel text-sm tracking-wide text-stone-500">{owner.role}</p>
+      <div className="absolute top-4 right-4 max-w-[calc(100vw-8.5rem)] text-right sm:top-6 sm:right-7">
+        <p className="font-pixel text-xl leading-tight text-stone-200 sm:text-2xl">{owner.name}</p>
+        <p className="font-pixel text-xs tracking-wide text-stone-500 sm:text-sm">{owner.role}</p>
       </div>
 
       <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6">
