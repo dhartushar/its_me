@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Portfolio: the mystery room
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An interactive 3D isometric stone room, built with Next.js, React Three Fiber and Tailwind.
+Clicking the pedestal, the three pillars and the door opens the portfolio panels.
 
-## Available Scripts
+## Run locally
 
-In the project directory, you can run:
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
 
-### `npm start`
+Checks:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm run lint
+npm run typecheck
+npm run build      # production build, served with `npm run start`
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Node 20 or newer is expected.
 
-### `npm test`
+## Deploying on Vercel
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The project used to be a Create React App. After this version is merged, set the
+Vercel project's **Framework Preset** to **Next.js** (the build command becomes
+`next build` and the output directory `.next`). The root directory stays `portfolio`.
 
-### `npm run build`
+## Where things live
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```text
+src/
+  app/              Next.js App Router entry: layout, page, global CSS
+  components/
+    Experience.tsx  Loads the canvas client-side, wraps the HUD and loading screen
+    game/           Everything rendered inside the <Canvas>
+      GameCanvas.tsx       Canvas setup, renderer options, click-away handling
+      CameraController.tsx Orthographic isometric camera, limits, reset, panel shift
+      MainRoom.tsx         The first room: assembles walls, floor, props and lights
+      StoneWall/StoneFloor Procedural instanced brick and flagstone geometry
+      Pedestal/Pillar/MysteryDoor/Torch/Decor  Room props
+      Interactive.tsx      Hover highlight, cursor and click handling for any prop
+      materials.ts         Shared materials
+    ui/             HTML overlays: HUD buttons, menu, info panels, loading screen
+  data/portfolio.ts All text content (profile, about, projects, skills, help)
+  rooms/            Room registry and types
+  store/            Zustand store shared by the canvas and the HTML UI
+  hooks/            Media-query hooks (reduced motion, mobile)
+public/models/      Drop Blender GLB exports here when replacing procedural props
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Editing text: everything the panels show is in `src/data/portfolio.ts`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Adding another room
 
-### `npm run eject`
+1. Build the room as a component under `src/components/game/`, for example
+   `LibraryRoom.tsx`. Reuse `StoneWall`, `StoneFloor`, `Interactive` and the
+   shared `materials`, and give it its own `Lighting` if it needs different light.
+2. Register it in `src/rooms/registry.ts` with an id, a background colour and
+   camera settings (start angles, rotation limits and the size that must fit on
+   screen). The main room's entry is the template.
+3. Switch rooms by setting `currentRoomId` in `src/store/gameStore.ts`; the
+   `CameraController` remounts with the new room's settings. The door in the
+   main room is the natural place to trigger that change.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Each prop is an isolated component, so a procedural object can be swapped for a
+GLB loaded with drei's `useGLTF` without touching the rest of the room.
