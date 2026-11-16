@@ -11,7 +11,7 @@ const pixel = Pixelify_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Tushar Dhar · AI Lead",
+  title: "Tushar Dhar",
   description:
     "The portfolio of Tushar Dhar, AI Lead at EaseMyTrip building agentic assistants, voice AI and retrieval systems, presented as an interactive 3D room.",
 };
