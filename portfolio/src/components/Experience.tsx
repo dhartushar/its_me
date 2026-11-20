@@ -5,6 +5,7 @@ import { Component, type ReactNode } from "react";
 import { panels } from "@/data/portfolio";
 import { GameHUD } from "./ui/GameHUD";
 import { LoadingScreen } from "./ui/LoadingScreen";
+import { RoomFade } from "./ui/RoomFade";
 
 // three.js needs the browser, so the canvas is never rendered on the server.
 const GameCanvas = dynamic(() => import("./game/GameCanvas"), { ssr: false });
@@ -63,10 +64,11 @@ export function Experience() {
   return (
     <SceneBoundary>
       <main className="fixed inset-0 overflow-hidden">
-        <h1 className="sr-only">Tushar Dhar, software developer: an interactive portfolio room</h1>
+        <h1 className="sr-only">Tushar Dhar, AI Engineer: an interactive portfolio room</h1>
         <GameCanvas />
         <GameHUD />
         <LoadingScreen />
+        <RoomFade />
       </main>
     </SceneBoundary>
   );

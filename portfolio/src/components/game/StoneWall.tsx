@@ -39,10 +39,7 @@ export function StoneWall({
   openings = [],
   seed,
 }: StoneWallProps) {
-  const bricks = useMemo(
-    () => buildBricks(length, height, openings, seed),
-    [length, height, openings, seed],
-  );
+  const bricks = useMemo(() => buildBricks(length, height, openings, seed), [length, height, openings, seed]);
   const core = useMemo(() => buildCore(length, height, openings), [length, height, openings]);
 
   return (

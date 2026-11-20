@@ -1,7 +1,7 @@
 # Portfolio: the mystery room
 
-An interactive 3D isometric stone room, built with Next.js, React Three Fiber and Tailwind.
-Clicking the pedestal, the three pillars and the door opens the portfolio panels.
+An interactive 3D isometric portfolio, built with Next.js, React Three Fiber and Tailwind.
+Click the pedestal or use the menu to open portfolio panels. Solve the Entry Hall puzzles to reach the Bedchamber and Cellar, and use the white pavement arrows to return.
 
 ## Run locally
 
@@ -36,7 +36,8 @@ src/
     game/           Everything rendered inside the <Canvas>
       GameCanvas.tsx       Canvas setup, renderer options, click-away handling
       CameraController.tsx Orthographic isometric camera, limits, reset, panel shift
-      MainRoom.tsx         The first room: assembles walls, floor, props and lights
+      StoneRoom.tsx        Shared walls, floor and lighting
+      MainRoom/SideRooms   Entry Hall and explorable rooms
       StoneWall/StoneFloor Procedural instanced brick and flagstone geometry
       Pedestal/Pillar/MysteryDoor/Torch/Decor  Room props
       Interactive.tsx      Hover highlight, cursor and click handling for any prop
@@ -54,14 +55,12 @@ Editing text: everything the panels show is in `src/data/portfolio.ts`.
 ## Adding another room
 
 1. Build the room as a component under `src/components/game/`, for example
-   `LibraryRoom.tsx`. Reuse `StoneWall`, `StoneFloor`, `Interactive` and the
-   shared `materials`, and give it its own `Lighting` if it needs different light.
-2. Register it in `src/rooms/registry.ts` with an id, a background colour and
+   `LibraryRoom.tsx`. Use `StoneRoom` for the existing stone layout and lighting.
+2. Add the room ID and name to `src/rooms/types.ts`. Register it in `src/rooms/registry.ts` with a background colour and
    camera settings (start angles, rotation limits and the size that must fit on
    screen). The main room's entry is the template.
-3. Switch rooms by setting `currentRoomId` in `src/store/gameStore.ts`; the
-   `CameraController` remounts with the new room's settings. The door in the
-   main room is the natural place to trigger that change.
+3. Set the new room as a door's `destination`. The door starts room travel and
+   the camera loads the destination's settings while the screen is black.
 
 Each prop is an isolated component, so a procedural object can be swapped for a
 GLB loaded with drei's `useGLTF` without touching the rest of the room.

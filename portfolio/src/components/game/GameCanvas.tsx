@@ -1,20 +1,19 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { getRoom } from "@/rooms/registry";
+import type { RoomId } from "@/rooms/types";
 import { useGameStore } from "@/store/gameStore";
 import { CameraController } from "./CameraController";
 
-/** Marks the scene as ready after its first rendered frame. */
-function ReadySignal() {
-  const done = useRef(false);
-  const setReady = useGameStore((state) => state.setReady);
+/** Wait until the renderer has drawn a frame of this room before revealing it. */
+function ReadySignal({ roomId }: { roomId: RoomId }) {
+  const frames = useRef(0);
+  const roomRendered = useGameStore((state) => state.roomRendered);
   useFrame(() => {
-    if (done.current) return;
-    done.current = true;
-    setReady();
+    if (frames.current < 2 && ++frames.current === 2) roomRendered(roomId);
   });
   return null;
 }
@@ -50,9 +49,11 @@ export default function GameCanvas() {
       aria-label={`${room.name}: an interactive 3D room`}
     >
       <color attach="background" args={[room.background]} />
-      <CameraController key={room.id} config={room.camera} />
-      <RoomComponent />
-      <ReadySignal />
+      <Fragment key={room.id}>
+        <CameraController config={room.camera} />
+        <RoomComponent />
+        <ReadySignal roomId={room.id} />
+      </Fragment>
     </Canvas>
   );
 }

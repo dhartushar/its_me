@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { menuPanels, owner, panels } from "@/data/portfolio";
+import { DEFAULT_ROOM_ID, ROOM_NAMES } from "@/rooms/types";
 import { useGameStore } from "@/store/gameStore";
 import { HelpIcon, MenuIcon, ResetIcon } from "./icons";
 import { InfoPanel } from "./InfoPanel";
+import { BedchamberKeypad, BrickNote } from "./PuzzlePanels";
 
 function SquareButton({
   label,
@@ -43,9 +45,12 @@ export function GameHUD() {
   const openPanel = useGameStore((state) => state.openPanel);
   const closePanel = useGameStore((state) => state.closePanel);
   const resetCamera = useGameStore((state) => state.resetCamera);
+  const roomId = useGameStore((state) => state.currentRoomId);
+  const traveling = useGameStore((state) => state.travel !== null);
+  const inEntryHall = roomId === DEFAULT_ROOM_ID;
 
-  // The first opened panel retires the starting hint.
-  if (activePanel !== null && !explored) setExplored(true);
+  // Exploring a panel or another room retires the starting hint.
+  if (!explored && (activePanel !== null || !inEntryHall)) setExplored(true);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -74,7 +79,7 @@ export function GameHUD() {
   const caption = hoveredLabel ?? (explored ? null : "Drag to look around · tap the pedestal to begin");
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-10 select-none">
+    <div inert={traveling} className="pointer-events-none fixed inset-0 z-10 select-none">
       <div ref={menuRef} className="absolute top-4 left-4 flex items-start gap-2 sm:top-6 sm:left-6">
         <SquareButton label="Menu" onClick={() => setMenuOpen((open) => !open)} expanded={menuOpen}>
           <MenuIcon />
@@ -108,10 +113,9 @@ export function GameHUD() {
         )}
       </div>
 
-      <div className="absolute top-4 right-4 max-w-[calc(100vw-8.5rem)] text-right sm:top-6 sm:right-7">
-        <p className="font-pixel text-xl leading-tight text-stone-200 sm:text-2xl">{owner.name}</p>
-        <p className="font-pixel text-xs tracking-wide text-stone-500 sm:text-sm">{owner.role}</p>
-      </div>
+      <p aria-live="polite" className="font-pixel absolute top-4 right-4 text-right text-xl text-stone-200 sm:top-6 sm:right-7 sm:text-2xl">
+        {!inEntryHall && ROOM_NAMES[roomId]}
+      </p>
 
       <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6">
         <SquareButton label="Reset camera" onClick={resetCamera}>
@@ -129,7 +133,12 @@ export function GameHUD() {
         </p>
       )}
 
-      {activePanel && <InfoPanel panel={panels[activePanel]} onClose={closePanel} />}
+      {activePanel && (
+        <InfoPanel panel={panels[activePanel]} onClose={closePanel}>
+          {activePanel === "brick-note" && <BrickNote />}
+          {activePanel === "bedchamber-lock" && <BedchamberKeypad />}
+        </InfoPanel>
+      )}
     </div>
   );
 }

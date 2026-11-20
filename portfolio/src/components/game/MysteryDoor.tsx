@@ -1,9 +1,10 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Color, MathUtils, type Group, type MeshBasicMaterial, type PointLight } from "three";
 import { useReducedMotion } from "@/hooks/useMediaQuery";
+import { ROOM_NAMES } from "@/rooms/types";
 import { useGameStore } from "@/store/gameStore";
 import { Interactive } from "./Interactive";
 import { materials } from "./materials";
@@ -11,13 +12,14 @@ import { materials } from "./materials";
 interface MysteryDoorProps {
   /** Centre of the doorway at floor level, on the wall's room-facing plane. */
   position: [number, number, number];
+  rotationY?: number;
   width: number;
   height: number;
   wallThickness: number;
+  destination: "room-1" | "room-2";
 }
 
 const OPEN_ANGLE = 1.45;
-const PANEL_DELAY_MS = 850;
 const GLOW_OFF = new Color("#0b0a09");
 const GLOW_ON = new Color("#ffcf8f");
 
@@ -30,45 +32,29 @@ function passageWalls(width: number, height: number, depth: number): [number, nu
     [(inner + t) / 2, height / 2, 0, t, height, depth],
     [0, height + t / 2, 0, inner + 2 * t, t, depth],
     [0, -t / 2 + 0.02, 0, inner + 2 * t, t, depth],
-    [0, height / 2, -depth / 2 + t / 2, inner + 2 * t, height + t, t],
+    [0, height / 2, -depth / 2 + t / 2, inner, height, t],
   ];
 }
 
 /** A wooden door set in a stone frame, with a lit passage behind it. */
-export function MysteryDoor({ position, width, height, wallThickness }: MysteryDoorProps) {
+export function MysteryDoor({ position, rotationY = 0, width, height, wallThickness, destination }: MysteryDoorProps) {
   const leaf = useRef<Group>(null);
   const light = useRef<PointLight>(null);
   const glow = useRef<MeshBasicMaterial>(null);
-  const openness = useRef(0);
-  const timer = useRef<number | null>(null);
-
-  const doorOpen = useGameStore((state) => state.doorOpen);
-  const openDoor = useGameStore((state) => state.openDoor);
+  const gate = destination === "room-2";
+  const unlocked = useGameStore((state) => gate ? state.cellarUnlocked : state.bedchamberUnlocked);
+  const openness = useRef(unlocked ? 1 : 0);
+  const beginRoomTravel = useGameStore((state) => state.beginRoomTravel);
   const openPanel = useGameStore((state) => state.openPanel);
   const reducedMotion = useReducedMotion();
-
-  useEffect(
-    () => () => {
-      if (timer.current !== null) window.clearTimeout(timer.current);
-    },
-    [],
-  );
-
   const activate = () => {
-    if (doorOpen || reducedMotion) {
-      openDoor();
-      openPanel("door");
-      return;
-    }
-    openDoor();
-    if (timer.current !== null) window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => openPanel("door"), PANEL_DELAY_MS);
+    if (unlocked) beginRoomTravel(destination);
+    else if (!gate) openPanel("bedchamber-lock");
   };
 
   useFrame((_, delta) => {
-    const target = doorOpen ? 1 : 0;
-    if (Math.abs(openness.current - target) < 0.001) return;
-    openness.current = reducedMotion ? target : MathUtils.damp(openness.current, target, 3.2, delta);
+    const target = unlocked ? 1 : 0;
+    openness.current = reducedMotion ? target : MathUtils.damp(openness.current, target, 5.2, delta);
     const amount = openness.current;
     if (leaf.current) leaf.current.rotation.y = amount * OPEN_ANGLE;
     if (light.current) light.current.intensity = amount * 9;
@@ -82,7 +68,7 @@ export function MysteryDoor({ position, width, height, wallThickness }: MysteryD
   const leafThickness = 0.1;
 
   return (
-    <group position={position}>
+    <group position={position} rotation={[0, rotationY, 0]}>
       {/* Passage behind the doorway, only visible through the opening. */}
       <group position={[0, 0, -wallThickness - depth / 2]}>
         {passageWalls(width, height, depth).map(([x, y, z, sx, sy, sz]) => (
@@ -97,7 +83,11 @@ export function MysteryDoor({ position, width, height, wallThickness }: MysteryD
         <pointLight ref={light} position={[0, height * 0.55, 0.2]} color="#ffb067" intensity={0} distance={6} decay={2} />
       </group>
 
-      <Interactive label="The sealed door" onActivate={activate}>
+      <Interactive label={ROOM_NAMES[destination]} onActivate={activate}>
+        <mesh position={[0, height / 2, 0.1]}>
+          <planeGeometry args={[width, height]} />
+          <meshBasicMaterial colorWrite={false} depthWrite={false} />
+        </mesh>
         {/* Stone frame. */}
         <group position={[0, 0, -wallThickness / 2 + 0.09]}>
           {[-1, 1].map((side) => (
@@ -121,24 +111,47 @@ export function MysteryDoor({ position, width, height, wallThickness }: MysteryD
 
         {/* Door leaf, hinged on its left edge. */}
         <group ref={leaf} position={[-width / 2 + 0.02, 0.01, -wallThickness / 2]}>
-          <group position={[leafWidth / 2, leafHeight / 2, 0]}>
-            <mesh material={materials.wood} castShadow receiveShadow>
-              <boxGeometry args={[leafWidth, leafHeight, leafThickness]} />
-            </mesh>
-            {[-0.25, 0.25].map((x) => (
-              <mesh key={x} position={[x * leafWidth, 0, leafThickness / 2 + 0.005]} material={materials.woodDark}>
-                <boxGeometry args={[0.04, leafHeight - 0.1, 0.02]} />
+          {gate ? (
+            <group position={[leafWidth / 2, leafHeight / 2, 0]}>
+              {[-0.44, -0.22, 0, 0.22, 0.44].map((x) => (
+                <mesh key={x} position={[x * leafWidth, 0, 0]} material={materials.iron} castShadow>
+                  <boxGeometry args={[0.095, leafHeight, 0.11]} />
+                </mesh>
+              ))}
+              {[-0.43, -0.11, 0.42].map((y) => (
+                <mesh key={y} position={[0, y * leafHeight, 0.045]} material={materials.pillarDark} castShadow>
+                  <boxGeometry args={[leafWidth, 0.15, 0.11]} />
+                </mesh>
+              ))}
+            </group>
+          ) : (
+            <group position={[leafWidth / 2, leafHeight / 2, 0]}>
+              <mesh material={materials.wood} castShadow receiveShadow>
+                <boxGeometry args={[leafWidth, leafHeight, leafThickness]} />
               </mesh>
-            ))}
-            {[-0.32, 0.3].map((y) => (
-              <mesh key={y} position={[0, y * leafHeight, leafThickness / 2 + 0.02]} material={materials.iron} castShadow>
-                <boxGeometry args={[leafWidth - 0.06, 0.1, 0.03]} />
-              </mesh>
-            ))}
-            <mesh position={[leafWidth * 0.32, -0.05, leafThickness / 2 + 0.06]} material={materials.iron}>
-              <torusGeometry args={[0.09, 0.022, 6, 12]} />
-            </mesh>
-          </group>
+              {[-0.25, 0.25].map((x) => (
+                <mesh key={x} position={[x * leafWidth, 0, leafThickness / 2 + 0.005]} material={materials.woodDark}>
+                  <boxGeometry args={[0.04, leafHeight - 0.1, 0.02]} />
+                </mesh>
+              ))}
+              {[-0.32, 0.3].map((y) => (
+                <mesh key={y} position={[0, y * leafHeight, leafThickness / 2 + 0.02]} material={materials.iron} castShadow>
+                  <boxGeometry args={[leafWidth - 0.06, 0.1, 0.03]} />
+                </mesh>
+              ))}
+              <group position={[leafWidth * 0.29, -0.06, leafThickness / 2 + 0.046]}>
+                <mesh>
+                  <boxGeometry args={[0.35, 0.27, 0.09]} />
+                  <meshStandardMaterial color="#c99a45" metalness={0.56} roughness={0.45} />
+                </mesh>
+                {[-0.1, 0, 0.1].map((x) => (
+                  <mesh key={x} position={[x, 0, 0.051]} material={materials.trim}>
+                    <boxGeometry args={[0.072, 0.11, 0.017]} />
+                  </mesh>
+                ))}
+              </group>
+            </group>
+          )}
         </group>
       </Interactive>
     </group>

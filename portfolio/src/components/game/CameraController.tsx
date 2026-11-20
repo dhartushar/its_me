@@ -69,9 +69,10 @@ export function CameraController({ config }: { config: RoomCameraConfig }) {
     controls.current?.update();
   };
 
-  // Place the camera once; ease in from a slightly wider angle unless motion is reduced.
+  // Ease in on initial load. During travel, frame the new room while the screen is black.
   useLayoutEffect(() => {
-    if (reducedMotion) {
+    camera().clearViewOffset();
+    if (reducedMotion || useGameStore.getState().travel) {
       applyPose(startPose);
     } else {
       applyPose({

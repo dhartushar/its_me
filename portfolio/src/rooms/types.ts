@@ -1,5 +1,13 @@
 import type { ComponentType } from "react";
 
+export const DEFAULT_ROOM_ID = "main";
+export type RoomId = typeof DEFAULT_ROOM_ID | "room-1" | "room-2";
+export const ROOM_NAMES: Record<RoomId, string> = {
+  main: "The Entry Hall",
+  "room-1": "Bedchamber",
+  "room-2": "Cellar",
+};
+
 export interface RoomCameraConfig {
   /** Point the camera orbits around. */
   target: [number, number, number];
@@ -14,7 +22,7 @@ export interface RoomCameraConfig {
 }
 
 export interface RoomConfig {
-  id: string;
+  id: RoomId;
   name: string;
   background: string;
   camera: RoomCameraConfig;

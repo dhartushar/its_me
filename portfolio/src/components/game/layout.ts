@@ -6,5 +6,5 @@ export const ROOM = {
   wallThickness: 0.4,
   /** Approximate height of the floor tiles' top surface. */
   floorY: 0.12,
-  door: { x: 3.1, width: 1.5, height: 2.6 },
+  door: { backX: 3.1, leftZ: -2.7, width: 1.5, height: 2.6 },
 } as const;

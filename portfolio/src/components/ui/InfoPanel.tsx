@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import type { PanelContent } from "@/data/portfolio";
 import { CloseIcon } from "./icons";
 
 interface InfoPanelProps {
   panel: PanelContent;
   onClose: () => void;
+  children?: ReactNode;
 }
 
 /** Dark translucent card: a side panel on desktop, a bottom sheet on phones. */
-export function InfoPanel({ panel, onClose }: InfoPanelProps) {
+export function InfoPanel({ panel, onClose, children }: InfoPanelProps) {
   const dialog = useRef<HTMLElement>(null);
   const titleId = `panel-title-${panel.id}`;
 
@@ -37,11 +38,12 @@ export function InfoPanel({ panel, onClose }: InfoPanelProps) {
         <CloseIcon />
       </button>
 
-      <p className="font-pixel text-xs tracking-[0.2em] text-amber-300/80 uppercase">{panel.eyebrow}</p>
-      <h2 id={titleId} className="font-pixel mt-2 pr-10 text-3xl leading-tight text-stone-50">
+      {panel.eyebrow && <p className="font-pixel text-xs tracking-[0.2em] text-amber-300/80 uppercase">{panel.eyebrow}</p>}
+      <h2 id={titleId} className={`font-pixel mt-2 pr-10 leading-tight text-stone-50 ${panel.id === "contact-email" ? "text-xl break-all select-text" : "text-3xl"}`}>
         {panel.title}
       </h2>
       {panel.subtitle && <p className="mt-1 text-sm text-stone-400">{panel.subtitle}</p>}
+      {children}
 
       {panel.paragraphs?.map((paragraph) => (
         <p key={paragraph} className="mt-4 text-[15px] leading-relaxed text-stone-300">

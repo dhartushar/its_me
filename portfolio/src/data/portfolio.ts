@@ -3,7 +3,7 @@
  * so content can be edited without touching the scene.
  */
 
-export type PanelId = "profile" | "about" | "projects" | "skills" | "door" | "help";
+export type PanelId = "profile" | "about" | "projects" | "skills" | "help" | "brick-note" | "bedchamber-lock" | "contact-email";
 
 export interface PanelLink {
   label: string;
@@ -25,7 +25,7 @@ export interface PanelGroup {
 export interface PanelContent {
   id: PanelId;
   /** Small label above the title. */
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   subtitle?: string;
   paragraphs?: string[];
@@ -43,6 +43,12 @@ export const owner = {
   tagline: "Building production AI systems for travel.",
 };
 
+export const contact = {
+  email: "tssdhar@gmail.com",
+  linkedIn: "https://www.linkedin.com/in/tushar-dhar-28a8b622a/",
+  gitHub: "https://github.com/dhartushar",
+};
+
 export const panels: Record<PanelId, PanelContent> = {
   profile: {
     id: "profile",
@@ -55,13 +61,13 @@ export const panels: Record<PanelId, PanelContent> = {
       "Founding member of the EaseMyTrip AI team, where I lead a team of five shipping conversational, voice and email automation for millions of travellers.",
     ],
     links: [
-      { label: "Email", value: "tssdhar@gmail.com", href: "mailto:tssdhar@gmail.com" },
+      { label: "Email", value: contact.email, href: `mailto:${contact.email}` },
       {
         label: "LinkedIn",
         value: "tushar-dhar",
-        href: "https://www.linkedin.com/in/tushar-dhar-28a8b622a/",
+        href: contact.linkedIn,
       },
-      { label: "GitHub", value: "dhartushar", href: "https://github.com/dhartushar" },
+      { label: "GitHub", value: "dhartushar", href: contact.gitHub },
       { label: "Location", value: "Gurgaon" },
     ],
   },
@@ -151,15 +157,9 @@ export const panels: Record<PanelId, PanelContent> = {
       },
     ],
   },
-  door: {
-    id: "door",
-    eyebrow: "Beyond the door",
-    title: "New room coming soon",
-    paragraphs: [
-      "Something is glowing back there, but the passage is not finished yet.",
-      "Check back later. This door will lead to the next room.",
-    ],
-  },
+  "brick-note": { id: "brick-note", title: "A folded note" },
+  "bedchamber-lock": { id: "bedchamber-lock", title: "Bedchamber", subtitle: "Enter three digits" },
+  "contact-email": { id: "contact-email", title: contact.email },
   help: {
     id: "help",
     eyebrow: "How to explore",
@@ -168,10 +168,11 @@ export const panels: Record<PanelId, PanelContent> = {
       { title: "Look around", text: "Drag to rotate the room." },
       {
         title: "Inspect things",
-        text: "Click or tap the pedestal, the three pillars and the door. Each one holds something.",
+        text: "Click or tap the pedestal to open the profile. The menu opens every portfolio panel.",
       },
+      { title: "Explore the Entry Hall", text: "Click or tap objects to see how they respond." },
+      { title: "Return to the hall", text: "Follow the white arrow on the pavement outside either room." },
       { title: "Lost?", text: "The button in the bottom-left corner puts the camera back." },
-      { title: "Prefer a list?", text: "The menu in the top-left corner opens every panel directly." },
     ],
   },
 };
